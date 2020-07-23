@@ -1,24 +1,28 @@
-const http = require("http");
-const url = require("url");
-const querystring = require("querystring");
-const { countries } = require("countries-list");
+const express = require('express');
+const { countries, languages } = require('countries-list');
 
-var server = http.createServer((request, response) => {
-  var parced = url.parse(request.url);
-  var query = querystring.parse(parced.query);
-  console.log("query", query);
-  console.log("parced", parced);
-  const pathname = parced.pathname;
-  if (pathname === "/country") {
-    response.writeHead(200, { "Content-Type": "application/json" });
-    response.write(JSON.stringify(countries[query.code]));
-    response.end();
-  } else {
-    response.writeHead(404, { "Content-Type": "application/json" });
-    response.write(JSON.stringify({ error: "url not found" }));
-    response.end();
-  }
+const app = express();
+app.get('/', (request, response) => {
+  response.status(200).send('hi');
 });
 
-server.listen(4000);
-console.log("server running at 4000");
+app.get('/country', (request, response) => {
+  console.log('query', request.query);
+  response.json(countries[request.query.code]);
+});
+app.get('/languages/:lang', (request, response) => {
+  console.log('params', request.params);
+  const lang = languages[request.params.lang];
+  if (lang) {
+    response.json(lang);
+  } else {
+    response.status(404).json({ status: 'NOT FOUND' });
+  }
+});
+app.get('*', (request, response) => {
+  response.status(404).send('NOT FOUND');
+});
+
+app.listen(4000, () => {
+  console.log('server running at 4000');
+});
