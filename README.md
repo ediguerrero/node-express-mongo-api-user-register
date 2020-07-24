@@ -1,4 +1,6 @@
 # node-express-mongo-api-user-register
-- To run this proyect you need this command
+- To run this proyect you need the commands
+
+`npm i`
 
 `npm run dev`
