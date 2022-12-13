@@ -12,7 +12,7 @@
   "license": "MIT",
   "dependencies": {
     "countries-list": "^2.5.5",
-    "express": "^4.17.1"
+    "express": "^4.17.3"
   },
   "devDependencies": {
     "eslint": "^7.5.0",
